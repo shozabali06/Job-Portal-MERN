@@ -164,7 +164,7 @@ const JobListings = () => {
             </a>
             {Array.from({ length: Math.ceil(filteredJobs.length / 6) }).map(
               (_, index) => (
-                <a href="#job-list">
+                <a key={index} href="#job-list">
                   <button
                     onClick={() => setCurrentPage(index + 1)}
                     className={`w-10 h-10 flex items-center justify-center border border-gray-300 rounded ${
@@ -182,7 +182,10 @@ const JobListings = () => {
               <img
                 onClick={() =>
                   setCurrentPage(
-                    Math.min(currentPage + 1, Math.ceil(filteredJobs.length / 6))
+                    Math.min(
+                      currentPage + 1,
+                      Math.ceil(filteredJobs.length / 6)
+                    )
                   )
                 }
                 src={assets.right_arrow_icon}
