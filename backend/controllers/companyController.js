@@ -90,7 +90,21 @@ export const loginCompany = async (req, res) => {
 };
 
 // get company data
-export const getCompanyData = async (req, res) => {};
+export const getCompanyData = async (req, res) => {
+  const company = req.company;
+
+  try {
+    res.json({
+      success: true,
+      company,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // post a new job
 export const postJob = async (req, res) => {
@@ -128,10 +142,51 @@ export const postJob = async (req, res) => {
 export const getCompanyJobApplicants = async (req, res) => {};
 
 // get company posted jobs
-export const getCompanyPostedJobs = async (req, res) => {};
+export const getCompanyPostedJobs = async (req, res) => {
+  try {
+    const companyId = req.company._id;
+
+    const jobs = await jobModel.find({ companyId });
+
+    // TODO: Add No. of applicants for job
+
+    res.json({
+      success: true,
+      jobsData: jobs,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // change job application status
 export const changeJobApplicationStatus = async (req, res) => {};
 
 // change job visibility
-export const changeVisibility = async (req, res) => {};
+export const changeVisibility = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const companyId = req.company._id;
+
+    const job = await jobModel.findById(id);
+
+    if (companyId.toString() === job.companyId.toString()) {
+      job.visible = !job.visible;
+    }
+
+    await job.save();
+
+    res.json({
+      success: true,
+      job,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
