@@ -32,7 +32,7 @@ const ManageJobs = () => {
   // Change job visibility
   const changeJobVisibility = async (id) => {
     try {
-      const { data } = axios.post(
+      const { data } = await axios.post(
         backendUrl + "/api/company/change-visibility",
         { id },
         { headers: { token: companyToken } }
@@ -91,7 +91,7 @@ const ManageJobs = () => {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <input
-                    onChange={changeJobVisibility(job._id)}
+                    onChange={()=>changeJobVisibility(job._id)}
                     className="scale-125 ml-4"
                     type="checkbox"
                     checked={job.visible}

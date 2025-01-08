@@ -21,8 +21,20 @@ export const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Funtion to fetch job data
-  const fetchJobs = () => {
-    setJobs(jobsData);
+  const fetchJobs = async () => {
+    try {
+      const {data} = await axios.get(backendUrl + "/api/jobs")
+
+      if (data.success) {
+        setJobs(data.jobs)
+        console.log(data.jobs)
+      }
+      else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   // Fetch company data
