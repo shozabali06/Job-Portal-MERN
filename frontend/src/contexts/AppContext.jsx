@@ -62,7 +62,7 @@ export const AppContextProvider = (props) => {
     try {
       const token = await getToken();
       const { data } = await axios.get(backendUrl + "/api/user/user", {
-        header: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (data.success) {
@@ -113,7 +113,9 @@ export const AppContextProvider = (props) => {
     backendUrl,
     userData,
     setUserData,
-    userApplications
+    userApplications,
+    setUserApplications,
+    fetchUserData
   };
 
   return (

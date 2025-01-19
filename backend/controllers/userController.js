@@ -7,7 +7,7 @@ import { v2 as cloudinary } from "cloudinary";
 export const getUserData = async (req, res) => {
   const userId = req.auth.userId;
   try {
-    const user = await userModel.findById(id);
+    const user = await userModel.findById(userId);
 
     if (!user) {
       return res.json({
@@ -105,10 +105,10 @@ export const getUserJobApplications = async (req, res) => {
 export const updateUserResume = async (req, res) => {
   try {
     const userId = req.auth.userId;
-    const resumeFile = req.resumeFile;
+    const resumeFile = req.file;
     const userData = await userModel.findById(userId);
 
-    if (resume) {
+    if (resumeFile) {
       const uploadResume = await cloudinary.uploader.upload(resumeFile.path);
       userData.resume = uploadResume.secure_url;
     }

@@ -9,6 +9,7 @@ import moment from "moment";
 import JobCard from "../components/JobCard";
 import Footer from "../components/Footer";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const ApplyJob = () => {
   const { id } = useParams();
@@ -42,7 +43,7 @@ const ApplyJob = () => {
         return toast.error("Upload resume to apply for a job")
       }
     } catch (error) {
-      
+      console.log(error)
     }
   }
 
@@ -102,7 +103,7 @@ const ApplyJob = () => {
                 className="rich-text"
                 dangerouslySetInnerHTML={{ __html: jobData.description }}
               ></div>
-              <button className="bg-blue-600 p-2.5 px-10 text-white rounded mt-10">
+              <button onClick={applyHandler} className="bg-blue-600 p-2.5 px-10 text-white rounded mt-10">
                 Apply
               </button>
             </div>
