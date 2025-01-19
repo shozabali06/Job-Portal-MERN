@@ -6,21 +6,22 @@ import { AppContext } from "../contexts/AppContext";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const { companyData, setCompanyData, setCompanyToken } = useContext(AppContext);
+  const { companyData, setCompanyData, setCompanyToken } =
+    useContext(AppContext);
 
   // Funtion to logout for company
-  const logout = ()=>{
-    setCompanyToken(null)
-    localStorage.removeItem("companyToken")
-    setCompanyData(null)
-    navigate("/")
-  }
+  const logout = () => {
+    setCompanyToken(null);
+    localStorage.removeItem("companyToken");
+    setCompanyData(null);
+    navigate("/");
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (companyData) {
-      navigate("/dashboard/manage-jobs")
+      navigate("/dashboard/manage-jobs");
     }
-  },[companyData])
+  }, [companyData]);
 
   return (
     <div className="min-h-screen">
@@ -44,7 +45,12 @@ const Dashboard = () => {
                 />
                 <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-12">
                   <ul className="list-none m-0 p-2 bg-white rounded-md border text-sm ">
-                    <li onClick={logout} className="py-1 px-2 cursor-pointer pr-10">Logout</li>
+                    <li
+                      onClick={logout}
+                      className="py-1 px-2 cursor-pointer pr-10"
+                    >
+                      Logout
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -92,7 +98,7 @@ const Dashboard = () => {
             </NavLink>
           </ul>
         </div>
-        <div>
+        <div className="flex-1 h-full p-2 sm:p-5 ">
           <Outlet />
         </div>
       </div>
