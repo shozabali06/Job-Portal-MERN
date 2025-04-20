@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
+import DOMPurify from 'dompurify';
 
 const ApplyJob = () => {
   const { id } = useParams();
@@ -146,8 +147,10 @@ const ApplyJob = () => {
             <div className="w-full lg:w-2/3 ">
               <h2 className="font-bold text-2xl mb-4">Job Description</h2>
               <div
-                className="rich-text"
-                dangerouslySetInnerHTML={{ __html: jobData.description }}
+                className="rich-text-content"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(jobData?.description || '')
+                }}
               ></div>
               <button
                 onClick={applyHandler}

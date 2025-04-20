@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Quill from "quill";
+import DOMPurify from 'dompurify';
 import { JobCategories, JobLocations } from "../assets/assets";
 import axios from "axios";
 import { AppContext } from "../contexts/AppContext";
@@ -21,7 +22,7 @@ const AddJobs = () => {
     e.preventDefault();
 
     try {
-      const description = quillRef.current.root.innerHTML;
+      const description = DOMPurify.sanitize(quillRef.current.root.innerHTML);
 
       const { data } = await axios.post(
         backendUrl + "/api/company/post-job",
@@ -30,24 +31,30 @@ const AddJobs = () => {
       );
 
       if(data.success) {
-        setTitle("")
-        setSalary(0)
-        quillRef.current.root.innerHTML = ""
-        toast.success(data.message)
-      }
-      else {
-        toast.error(data.message)
+        setTitle("");
+        setSalary(0);
+        quillRef.current.root.innerHTML = "";
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    // Initiate quill only once
     if (!quillRef.current && editorRef.current) {
       quillRef.current = new Quill(editorRef.current, {
         theme: "snow",
+        modules: {
+          toolbar: [
+            [{ 'header': [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['link'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+          ]
+        }
       });
     }
   }, []);

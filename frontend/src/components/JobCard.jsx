@@ -1,9 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
+import DOMPurify from 'dompurify';
 
 const JobCard = ({ job }) => {
   const navigate = useNavigate();
+
+  const truncateHTML = (html, maxLength) => {
+    const div = document.createElement('div');
+    div.innerHTML = DOMPurify.sanitize(html);
+    const text = div.textContent || div.innerText || '';
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  };
+
   return (
     <div className="border p-6 shadow rounded">
       <div className="flex justify-between items-center">
@@ -18,10 +27,9 @@ const JobCard = ({ job }) => {
           {job.level}
         </span>
       </div>
-      <p
-        className="text-gray-500 text-sm mt-4"
-        dangerouslySetInnerHTML={{ __html: job.description.slice(0, 150) }}
-      ></p>
+      <p className="text-gray-500 text-sm mt-4">
+        {truncateHTML(job.description, 150)}
+      </p>
       <div className="mt-4 flex gap-4 text-sm">
         <button
           onClick={() => {
